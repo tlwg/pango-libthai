@@ -1,0 +1,26 @@
+2003-09-10  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in:
+	Require libthai 0.1.2.
+	Version 0.1.1.
+
+2003-04-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in:
+	Change Pango required version from 1.1.4 to 1.0.4, as tested.
+	Fix X_LIBS setting, and substitue $X_LIBS in Makefiles.
+
+2003-03-02  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in:
+	Change Pango required version from 1.2.1 to 1.1.4, as tested.
+
+2003-03-26  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* +src/libthai-lang.c, src/Makefile.am:
+	Add Thai language engine for wordbreak support.
+
+2003-03-23  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* First create the project.
+
