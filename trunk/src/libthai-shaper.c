@@ -68,6 +68,12 @@ add_glyph (ThaiFontInfo     *font_info,
   glyphs->glyphs[index].geometry.y_offset = 0;
 }
 
+static PangoGlyph
+make_unichar_glyph (ThaiFontInfo *font_info, gunichar uc)
+{
+  return libthai_make_unknown_glyph (font_info, uc);
+}
+
 static int
 make_font_glyphs (ThaiFontInfo *font_info,
                   thglyph_t *log_glyphs, int n_log_glyphs,
@@ -110,6 +116,54 @@ make_logical_glyphs (ThaiFontInfo *font_info, struct thcell_t tis_cell,
     }
 }
 
+static void
+render_tis_chunk (ThaiFontInfo     *font_info,
+                  PangoGlyphString *glyphs,
+                  const char       *chunk_text,
+                  gint              chunk_length,
+                  gint              chunk_offset)
+{
+  thchar_t *tis_text;
+  gint      tis_length;
+  gint      i, j, n;
+
+  tis_text = g_convert (chunk_text, chunk_length, "TIS-620", "UTF-8",
+                        NULL, NULL, NULL);
+  g_return_if_fail (tis_text != NULL);
+  tis_length = strlen (tis_text);
+
+  for (i = 0; i < tis_length; /* nop */)
+    {
+      int             cell_length;
+      struct thcell_t tis_cell;
+      thglyph_t       log_glyphs[4];
+      PangoGlyph      pango_glyphs[4];
+  
+      cell_length = th_next_cell (tis_text + i, tis_length - i, &tis_cell, TRUE);
+      n = make_logical_glyphs (font_info, tis_cell,
+                               log_glyphs, G_N_ELEMENTS (log_glyphs));
+      n = make_font_glyphs (font_info, log_glyphs, n,
+                            pango_glyphs, G_N_ELEMENTS (pango_glyphs));
+      for (j = 0; j < n; j++)
+        add_glyph (font_info, glyphs,
+                   chunk_offset + (g_utf8_offset_to_pointer (chunk_text, i) - chunk_text),
+                   pango_glyphs[j], (j != 0));
+      i += cell_length;
+    }
+
+  g_free (tis_text);
+}
+
+static void
+render_non_thai_char (ThaiFontInfo     *font_info,
+                      PangoGlyphString *glyphs,
+                      gunichar          uc,
+                      gint              uc_offset)
+{
+  add_glyph (font_info, glyphs, uc_offset,
+             make_unichar_glyph (font_info, uc), FALSE);
+}
+
 void 
 libthai_engine_shape (PangoEngineShape *engine,
                       PangoFont        *font,
@@ -119,34 +173,32 @@ libthai_engine_shape (PangoEngineShape *engine,
                       PangoGlyphString *glyphs)
 {
   ThaiFontInfo *font_info;
-  thchar_t *tis_text;
-  int      tis_length;
-  int      i, j, n;
+  const char   *p;
 
-  tis_text = g_convert (text, length, "TIS-620", "UTF-8",
-                        NULL, NULL, NULL);
-  tis_length = strlen (tis_text);
-
+  /* initialization */
+  p = text;
   pango_glyph_string_set_size (glyphs, 0);
-
   font_info = libthai_get_font_info (font);
 
-  for (i = 0; i < tis_length; /* nop */)
+  while (p < text + length)
     {
-      int             cell_length;
-      thglyph_t       log_glyphs[4];
-      struct thcell_t tis_cell;
-      PangoGlyph      pango_glyphs[4];
-  
-      cell_length = th_next_cell (tis_text + i, tis_length - i, &tis_cell, TRUE);
-      n = make_logical_glyphs (font_info, tis_cell,
-                               log_glyphs, G_N_ELEMENTS (log_glyphs));
-      n = make_font_glyphs (font_info, log_glyphs, n,
-                            pango_glyphs, G_N_ELEMENTS (pango_glyphs));
-      for (j = 0; j < n; j++)
-        add_glyph (font_info, glyphs, g_utf8_offset_to_pointer (text, i) - text,
-                   pango_glyphs[j], (j != 0));
-      i += cell_length;
+      const char *chunk_marker;
+      gunichar    uc;
+
+      /* process TIS chunk */
+      chunk_marker = p;
+      while (p < text + length && th_wcistis (g_utf8_get_char (p)))
+        p = g_utf8_next_char (p);
+      if (p > chunk_marker)
+        render_tis_chunk (font_info, glyphs, chunk_marker, p - chunk_marker,
+                          chunk_marker - text);
+
+      /* process non-TIS chunk */
+      while (p < text + length && !th_wcistis (uc = g_utf8_get_char (p)))
+        {
+          render_non_thai_char (font_info, glyphs, uc, p - text);
+          p = g_utf8_next_char (p);
+        }
     }
 }
 
