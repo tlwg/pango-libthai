@@ -4,6 +4,7 @@ common_sources = libthai-shaper.c libthai-shaper.h
 thai_x_sources = $(common_sources) libthai-x.c 
 thai_xft_sources = $(common_sources) libthai-xft.c 
 thai_ft2_sources = $(common_sources) libthai-ft2.c 
+thai_lang_sources = libthai-lang.c 
 
 pangolibs = $(PANGO_LIBS) $(LIBTHAI_LIBS)
 pangoxlibs = $(PANGOX_LIBS) $(X_LIBS) $(LIBTHAI_LIBS)
@@ -48,7 +49,7 @@ no_undefined = -no-undefined
 endif
 
 noinst_LTLIBRARIES = $(X_INCLUDED) $(XFT_INCLUDED) $(FT2_INCLUDED)
-module_LTLIBRARIES = $(X_MODULES) $(XFT_MODULES) $(FT2_MODULES)
+module_LTLIBRARIES = $(X_MODULES) $(XFT_MODULES) $(FT2_MODULES) pango-libthai-lang.la
 moddefine = $(X_PREFIX) $(XFT_PREFIX) $(FT2_PREFIX)
 moduledir = $(libdir)/pango/$(PANGO_MODULE_VERSION)/modules
 
@@ -74,6 +75,10 @@ pango_libthai_xft_la_SOURCES = $(thai_xft_sources)
 pango_libthai_ft2_la_LDFLAGS = -export-dynamic -avoid-version -module $(no_undefined)
 pango_libthai_ft2_la_LIBADD = $(thai_ft2_libadd)
 pango_libthai_ft2_la_SOURCES = $(thai_ft2_sources)
+
+pango_libthai_lang_la_LDFLAGS = -export-dynamic -avoid-version -module $(no_undefined)
+pango_libthai_lang_la_LIBADD = $(pangolibs)
+pango_libthai_lang_la_SOURCES = $(thai_lang_sources)
 
 install-data-hook:
 	@if test -z "$(DESTDIR)" ; then 				\
