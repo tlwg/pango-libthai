@@ -6,8 +6,7 @@ dnl ==========================================================================
 dnl                               Versioning              
 dnl ==========================================================================
 
-PANGO_REQUIRED_VERSION=1.0.4
-PANGO_OBSOLETE_VERSION=1.3.0
+PANGO_REQUIRED_VERSION=1.4.999
 LIBTHAI_REQUIRED_VERSION=0.1.3
 
 dnl Initialize automake stuff
@@ -29,16 +28,6 @@ case "$host" in
 esac
 AC_MSG_RESULT([$pango_platform_win32])
 AM_CONDITIONAL(PLATFORM_WIN32, test "$pango_platform_win32" = "yes")
-
-if test x$no_x = xyes ; then
-  AC_MSG_WARN([X development libraries not found])
-  have_x=false
-else
-  X_LIBS="$X_LIBS -L/usr/X11R6/lib -lX11"
-  have_x=true
-fi
-AM_CONDITIONAL(HAVE_X, $have_x) 
-AC_SUBST(X_LIBS)
 
 #
 # Checks for FreeType
@@ -62,7 +51,7 @@ if test "x$FREETYPE_CONFIG" != "xno" ; then
 
     AC_MSG_CHECKING([For sufficiently new FreeType (at least 2.0.1)])
     AC_TRY_COMPILE([
-#include <freetype/freetype.h>
+#include FT_FREETYPE_H
 #include FT_ERRORS_H
 ]
                 ,[(void)1;],:,have_freetype=false)
@@ -97,20 +86,43 @@ have_fontconfig=false
 
 PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1, have_fontconfig=true, :)
 
-AC_SUBST(FONTCONFIG_LIBS)
-AC_SUBST(FONTCONFIG_CFLAGS)
+if $have_fontconfig ; then
+  #
+  # Checks for FreeType
+  #
+  FREETYPE_LIBS=
+  FREETYPE_CFLAGS=
+  AC_PATH_PROG(FREETYPE_CONFIG, freetype-config, no)
+  if test "x$FREETYPE_CONFIG" != "xno" ; then
+    FREETYPE_CFLAGS=`$FREETYPE_CONFIG --cflags`
+    FREETYPE_LIBS=`$FREETYPE_CONFIG --libs`
 
-AM_CONDITIONAL(HAVE_FREETYPE, $have_freetype && $have_fontconfig)
+    pango_save_ldflags=$LDFLAGS
+    LDFLAGS="$LDFLAGS $FREETYPE_LIBS"
+    AC_CHECK_LIB(freetype, FT_Get_Next_Char, have_freetype=true, :)
+    LDFLAGS=$pango_save_ldflags
+  fi
 
-#
-# Checks for Xft/XRender
-#
-have_xft=false
+  FREETYPE_LIBS="$FONTCONFIG_LIBS $FREETYPE_LIBS"
+  FREETYPE_CFLAGS="$FONTCONFIG_CFLAGS $FREETYPE_CFLAGS"
 
-PKG_CHECK_MODULES(XFT, xft >= 2.0.0, have_xft=true, :)
+  AC_SUBST(FREETYPE_LIBS)
+  AC_SUBST(FREETYPE_CFLAGS)
 
-AC_SUBST(XFT_LIBS)
-AC_SUBST(XFT_CFLAGS)
+  #
+  # Checks for Xft/XRender
+  #
+  if $have_x && $have_freetype ; then
+    PKG_CHECK_MODULES(XFT, xft >= 2.0.0, have_xft=true, :)
+  fi
+
+  AC_SUBST(XFT_LIBS)
+  AC_SUBST(XFT_CFLAGS)
+else
+  AC_MSG_WARN([No fontconfig found, skipping tests for FreeType and Xft])
+fi
+
+AM_CONDITIONAL(HAVE_FREETYPE, $have_freetype)
 AM_CONDITIONAL(HAVE_XFT, $have_xft)
 
 #
@@ -145,7 +157,7 @@ if $have_freetype || $have_x || $have_xft || $have_win32  ; then : ; else
 fi
 
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, pango >= $PANGO_REQUIRED_VERSION pango < $PANGO_OBSOLETE_VERSION)
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, pango >= $PANGO_REQUIRED_VERSION)
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, libthai >= $LIBTHAI_REQUIRED_VERSION)
 
 PANGO_MODULE_VERSION=`$PKG_CONFIG --variable=pango_module_version pango`
