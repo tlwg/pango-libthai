@@ -1,3 +1,8 @@
+2003-03-26  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* +src/libthai-lang.c, src/Makefile.am:
+	Add Thai language engine for wordbreak support.
+
 2003-03-23  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* First create the project.
