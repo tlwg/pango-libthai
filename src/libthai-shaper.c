@@ -103,7 +103,6 @@ make_logical_glyphs (ThaiFontInfo *font_info, struct thcell_t tis_cell,
     {
       case THAI_FONT_NONE:
       case THAI_FONT_TIS:
-      case THAI_FONT_ISO10646:
         return th_render_cell_tis (tis_cell, log_glyphs, n_log_glyphs, TRUE);
   
       case THAI_FONT_TIS_MAC:
