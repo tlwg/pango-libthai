@@ -33,6 +33,7 @@
 #include <pango/pango-engine.h>
 #include <thai/thrend.h>
 #include "libthai-shaper.h"
+#include "libthai-ot.h"
 
 
 static void
@@ -200,5 +201,7 @@ libthai_engine_shape (PangoEngineShape *engine,
           p = g_utf8_next_char (p);
         }
     }
+
+  libthai_ot_shape (font, glyphs);
 }
 
