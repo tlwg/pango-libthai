@@ -1,7 +1,9 @@
 2004-02-22  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in:
-	Limit pango supports to < 1.3.0
+	Limit pango supports to < 1.3.0.
+	Require libthai 0.1.3.
+	Version 0.1.2.
 
 2004-01-20  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
