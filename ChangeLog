@@ -1,3 +1,16 @@
+2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	Prefer OT tables, if available, to PUA glyph sets. Patch back-ported
+	from that contributed to Pango CVS HEAD.
+
+	* src/libthai-ot.[ch]:
+	Merge get_gsub_ruleset() and get_gpos_ruleset() into a single public
+	function libthai_ot_get_ruleset(). Also make it return NULL if the
+	ruleset is empty. Modify libthai_ot_shape() to call it accordingly.
+
+	* src/libthai-fc.c (libthai_get_font_info):
+	Check for OT ruleset before PUA glyph sets.
+
 2004-09-24  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in, NEWS:

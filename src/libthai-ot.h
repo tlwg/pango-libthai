@@ -10,6 +10,9 @@
 
 #include <pango/pango-ot.h>
 
+PangoOTRuleset *
+libthai_ot_get_ruleset (PangoFont *font);
+
 void 
 libthai_ot_shape (PangoFont        *font,
                   PangoGlyphString *glyphs);
