@@ -1,7 +1,0 @@
-pango-libthai
-
-0.1.2
-=====
-
-- Use dottedcircle as the base for floating upper/lower vowels.
-- More strict check in configure script
