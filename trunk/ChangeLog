@@ -1,5 +1,23 @@
 2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	Explicitly handle dangling upper/lower marks. Fix adapted from
+	that contributed to Pango CVS HEAD.
+
+	* src/libthai-shaper.c (make_font_glyphs):
+	Check for TH_BLANK_BASE_GLYPH and try dottedcircle (U+25CC) if
+	possible. Let the mark glyph width extended to that if ink_rect
+	otherwise.
+
+	* src/libthai-shaper.h, src/libthai-fc.c
+	(+libthai_get_glyph_{tis,uni}):
+	Add new functions that allow failure of glyph retrieval. Also change
+	char type for TIS from gchar to guchar.
+
+	* src/libthai-fc.c (tis620_2):
+	Remove 0x25cc from tis620_2 glyph table.
+
+2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	Code clean-ups back-ported from that contributed to Pango CVS HEAD.
 
 	* src/libthai-shaper.h (enum ThaiFontSet),
