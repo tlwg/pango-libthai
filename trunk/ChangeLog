@@ -5,7 +5,7 @@
 
 	* src/libthai-shaper.c (make_font_glyphs):
 	Check for TH_BLANK_BASE_GLYPH and try dottedcircle (U+25CC) if
-	possible. Let the mark glyph width extended to that if ink_rect
+	possible. Let the mark glyph width extended to that of ink_rect
 	otherwise.
 
 	* src/libthai-shaper.h, src/libthai-fc.c
@@ -26,8 +26,8 @@
 	Remove ISO10646 fontset, as it's already covered by TIS fontset.
 
 	* src/libthai-fc.c (tis620_1):
-	Fix tis620_1 glyph table, after actually check with sample Thai fonts
-	for OSX (Jaguar).
+	Fix tis620_1 glyph table, after actually being checked with sample
+	Thai fonts for OSX (Jaguar).
 
 2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
