@@ -1,3 +1,9 @@
+2003-04-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in:
+	Change Pango required version from 1.1.4 to 1.0.4, as tested.
+	Fix X_LIBS setting, and substitue $X_LIBS in Makefiles.
+
 2003-03-02  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in:
