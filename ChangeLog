@@ -1,3 +1,9 @@
+2004-09-20  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* src/libthai-shaper.c:
+	Handle non-TIS characters, such as ZWNJ, that are actually passed
+	to Pango by gunichar. (Bug reported by Kitt Thienthanopajai).
+
 2004-08-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in:
