@@ -1,3 +1,9 @@
+2003-09-10  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in:
+	Require libthai 0.1.2.
+	Version 0.1.1.
+
 2003-04-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in:
