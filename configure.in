@@ -7,11 +7,10 @@ dnl                               Versioning
 dnl ==========================================================================
 
 PANGO_REQUIRED_VERSION=1.0.4
-PANGO_OBSOLETE_VERSION=1.3.0
-LIBTHAI_REQUIRED_VERSION=0.1.3
+LIBTHAI_REQUIRED_VERSION=0.1.2
 
 dnl Initialize automake stuff
-AM_INIT_AUTOMAKE(pango-libthai, 0.1.2)
+AM_INIT_AUTOMAKE(pango-libthai, 0.1.1)
 
 AC_PROG_CC
 AM_DISABLE_STATIC
@@ -145,8 +144,7 @@ if $have_freetype || $have_x || $have_xft || $have_win32  ; then : ; else
 fi
 
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, pango >= $PANGO_REQUIRED_VERSION pango < $PANGO_OBSOLETE_VERSION)
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, libthai >= $LIBTHAI_REQUIRED_VERSION)
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, pango >= $PANGO_REQUIRED_VERSION libthai >= $LIBTHAI_REQUIRED_VERSION)
 
 PANGO_MODULE_VERSION=`$PKG_CONFIG --variable=pango_module_version pango`
 AC_SUBST(PANGO_MODULE_VERSION)
