@@ -7,6 +7,10 @@
 	src/libthai-fc.c (libthai_get_font_info, libthai_make_glyph_tis):
 	Remove ISO10646 fontset, as it's already covered by TIS fontset.
 
+	* src/libthai-fc.c (tis620_1):
+	Fix tis620_1 glyph table, after actually check with sample Thai fonts
+	for OSX (Jaguar).
+
 2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	Prefer OT tables, if available, to PUA glyph sets. Patch back-ported
