@@ -26,13 +26,14 @@
 #include <thai/thctype.h>
 #include <thai/thbrk.h>
 
+/* No extra fields needed */
+typedef PangoEngineLang      LibThaiEngineLang;
+typedef PangoEngineLangClass LibThaiEngineLangClass;
 
 #define SCRIPT_ENGINE_NAME "LibThaiScriptEngineLang"
 
-/* We handle the range U+0e01 to U+0e5b exactly
- */
-static PangoEngineRange thai_ranges[] = {
-  { 0x0e01, 0x0e5b, "*" },  /* Thai */
+static PangoEngineScriptInfo thai_scripts[] = {
+  { PANGO_SCRIPT_THAI, "*" }
 };
 
 static PangoEngineInfo script_engines[] = {
@@ -40,16 +41,17 @@ static PangoEngineInfo script_engines[] = {
     SCRIPT_ENGINE_NAME,
     PANGO_ENGINE_TYPE_LANG,
     PANGO_RENDER_TYPE_NONE,
-    thai_ranges, G_N_ELEMENTS(thai_ranges)
+    thai_scripts, G_N_ELEMENTS(thai_scripts)
   }
 };
 
 static void
-thai_engine_break (const char    *text,
-                   int            len,
-                   PangoAnalysis *analysis,
-                   PangoLogAttr  *attrs,
-                   int            attrs_len)
+libthai_engine_break (PangoEngineLang *engine,
+                      const char      *text,
+                      int              len,
+                      PangoAnalysis   *analysis,
+                      PangoLogAttr    *attrs,
+                      int              attrs_len)
 {
   thchar_t *tis_text;
 
@@ -77,6 +79,8 @@ thai_engine_break (const char    *text,
           attrs[i].is_sentence_boundary = FALSE;
           attrs[i].is_sentence_start = FALSE;
           attrs[i].is_sentence_end = FALSE;
+
+          attrs[i].backspace_deletes_character = attrs[i].is_cursor_position;
         }
 
       /* find line break positions */
@@ -93,38 +97,28 @@ thai_engine_break (const char    *text,
     }
 }
 
-static PangoEngine *
-thai_engine_lang_new ()
+static void
+libthai_engine_lang_class_init (PangoEngineLangClass *class)
 {
-  PangoEngineLang *result;
-  
-  result = g_new (PangoEngineLang, 1);
-
-  result->engine.id = SCRIPT_ENGINE_NAME;
-  result->engine.type = PANGO_ENGINE_TYPE_LANG;
-  result->engine.length = sizeof (result);
-  result->script_break = thai_engine_break;
-
-  return (PangoEngine *)result;
+  class->script_break = libthai_engine_break;
 }
 
-/* The following three functions provide the public module API for
- * Pango. If we are compiling it is a module, then we name the
- * entry points script_engine_list, etc. But if we are compiling
- * it for inclusion directly in Pango, then we need them to
- * to have distinct names for this module, so we prepend
- * _pango_thai_lang_
- */
-#ifdef LANG_MODULE_PREFIX
-#define MODULE_ENTRY(func) _pango_thai_lang_##func
-#else
-#define MODULE_ENTRY(func) func
-#endif
+PANGO_ENGINE_LANG_DEFINE_TYPE (LibThaiEngineLang, libthai_engine_lang,
+                               libthai_engine_lang_class_init, NULL);
 
-/* List the engines contained within this module
- */
+void
+PANGO_MODULE_ENTRY(init) (GTypeModule *module)
+{
+  libthai_engine_lang_register_type (module);
+}
+
+void
+PANGO_MODULE_ENTRY(exit) (void)
+{
+}
+
 void 
-MODULE_ENTRY(script_engine_list) (PangoEngineInfo **engines, gint *n_engines)
+PANGO_MODULE_ENTRY(list) (PangoEngineInfo **engines, gint *n_engines)
 {
   *engines = script_engines;
   *n_engines = G_N_ELEMENTS (script_engines);
@@ -133,16 +127,11 @@ MODULE_ENTRY(script_engine_list) (PangoEngineInfo **engines, gint *n_engines)
 /* Load a particular engine given the ID for the engine
  */
 PangoEngine *
-MODULE_ENTRY(script_engine_load) (const char *id)
+PANGO_MODULE_ENTRY(create) (const char *id)
 {
   if (!strcmp (id, SCRIPT_ENGINE_NAME))
-    return thai_engine_lang_new ();
+    return g_object_new (libthai_engine_lang_type, NULL);
   else
     return NULL;
-}
-
-void 
-MODULE_ENTRY(script_engine_unload) (PangoEngine *engine)
-{
 }
 
