@@ -1,6 +1,7 @@
 ## Process this file with automake to create Makefile.in.
 
-thai_fc_sources = libthai-shaper.c libthai-shaper.h libthai-fc.c 
+thai_fc_sources = libthai-shaper.c libthai-shaper.h libthai-fc.c \
+                  libthai-ot.c libthai-ot.h
 thai_lang_sources = libthai-lang.c 
 
 pangolibs = $(PANGO_LIBS) $(LIBTHAI_LIBS)

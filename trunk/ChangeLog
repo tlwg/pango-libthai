@@ -4,6 +4,10 @@
 	Handle non-TIS characters, such as ZWNJ, that are actually passed
 	to Pango by gunichar. (Bug reported by Kitt Thienthanopajai).
 
+	* +src/libthai-ot.[ch], src/libthai-shaper.c, src/Makefile.am:
+	Add OpenType support, using the same code as submitted to Pango
+	source.
+
 2004-08-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in:
