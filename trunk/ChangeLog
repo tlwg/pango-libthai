@@ -1,5 +1,14 @@
 2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	Code clean-ups back-ported from that contributed to Pango CVS HEAD.
+
+	* src/libthai-shaper.h (enum ThaiFontSet),
+	src/libthai-shaper.c (make_logical_glyphs),
+	src/libthai-fc.c (libthai_get_font_info, libthai_make_glyph_tis):
+	Remove ISO10646 fontset, as it's already covered by TIS fontset.
+
+2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	Prefer OT tables, if available, to PUA glyph sets. Patch back-ported
 	from that contributed to Pango CVS HEAD.
 
