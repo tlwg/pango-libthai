@@ -1,3 +1,8 @@
+2004-10-16  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in, NEWS:
+	Version 0.1.4.
+
 2004-10-11  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	Explicitly handle dangling upper/lower marks. Fix adapted from
