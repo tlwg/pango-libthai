@@ -16,6 +16,9 @@
 	You may change PANGO_REQUIRED_VERSION if you have applied the
 	proposed patch.
 
+	* -src/libthai-{x,xft,ft2}.c:
+	Remove obsolete files.
+
 2004-05-04  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* NEWS:
