@@ -1,3 +1,9 @@
+2005-03-15  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* src/libthai-fc.c:
+	Add Mac PUAs for baseless Tho Than and Yo Ying, as well as lowered
+	version of lower marks.
+
 2004-10-16  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in, NEWS:
