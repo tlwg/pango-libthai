@@ -72,7 +72,7 @@ add_glyph (ThaiFontInfo     *font_info,
 static PangoGlyph
 make_unichar_glyph (ThaiFontInfo *font_info, gunichar uc)
 {
-  return libthai_make_unknown_glyph (font_info, uc);
+  return libthai_make_glyph_uni (font_info, uc);
 }
 
 static int
@@ -87,7 +87,7 @@ make_font_glyphs (ThaiFontInfo *font_info,
       pango_glyphs[i]
         = (font_info->font_set == THAI_FONT_NONE) ?
             libthai_make_unknown_glyph (font_info, log_glyphs[i]) :
-            libthai_make_glyph (font_info, log_glyphs[i]);
+            libthai_make_glyph_tis (font_info, log_glyphs[i]);
     }
 
   return i;

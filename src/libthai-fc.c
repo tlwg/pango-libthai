@@ -165,11 +165,9 @@ libthai_get_font_info (PangoFont *font)
 }
 
 PangoGlyph
-libthai_make_glyph (ThaiFontInfo *font_info, unsigned int c)
+libthai_make_glyph_tis (ThaiFontInfo *font_info, gchar c)
 {
-  int index;
-  PangoGlyph result;
-  PangoFcFont *fc_font = (PangoFcFont *)font_info->font;
+  gunichar index;
 
   switch (font_info->font_set) {
     case THAI_FONT_ISO10646:index = c; break;
@@ -179,15 +177,24 @@ libthai_make_glyph (ThaiFontInfo *font_info, unsigned int c)
     default:                index = 0; break;
   }
   
-  result = pango_fc_font_get_glyph (fc_font, index);
-  if (result)
-    return result;
-  else
-    return pango_fc_font_get_unknown_glyph (fc_font, index);
+  return libthai_make_glyph_uni (font_info, index);
 }
 
 PangoGlyph
-libthai_make_unknown_glyph (ThaiFontInfo *font_info, unsigned int c)
+libthai_make_glyph_uni (ThaiFontInfo *font_info, gunichar uc)
+{
+  PangoGlyph result;
+  PangoFcFont *fc_font = (PangoFcFont *)font_info->font;
+
+  result = pango_fc_font_get_glyph (fc_font, uc);
+  if (result)
+    return result;
+  else
+    return pango_fc_font_get_unknown_glyph (fc_font, uc);
+}
+
+PangoGlyph
+libthai_make_unknown_glyph (ThaiFontInfo *font_info, gunichar c)
 {
   return pango_fc_font_get_unknown_glyph ((PangoFcFont *)font_info->font, c);
 }
