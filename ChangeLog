@@ -1,3 +1,9 @@
+2004-08-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in:
+	Set PANGO_REQUIRED_VERSION to 1.4.1, as it has been released with
+	pango_break() bug fixing patch applied.
+
 2004-05-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in:
