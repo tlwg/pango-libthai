@@ -1,3 +1,9 @@
+2004-09-21  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* src/libthai-shaper.[ch], src/libthai-fc.c:
+	Define a cleaner API from libthai-shaper for making glyph of TIS-620
+	and Unicode chars.
+
 2004-09-20  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* src/libthai-shaper.c:
