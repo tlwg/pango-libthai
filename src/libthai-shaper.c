@@ -80,17 +80,24 @@ make_font_glyphs (ThaiFontInfo *font_info,
                   thglyph_t *log_glyphs, int n_log_glyphs,
                   PangoGlyph *pango_glyphs, int n_pango_glyphs)
 {
-  int i;
+  int i, j;
 
-  for (i = 0; i < n_log_glyphs && i < n_pango_glyphs; i++)
+  for (i = j = 0; i < n_log_glyphs && i < n_pango_glyphs; i++)
     {
-      pango_glyphs[i]
-        = (font_info->font_set == THAI_FONT_NONE) ?
-            libthai_make_unknown_glyph (font_info, log_glyphs[i]) :
-            libthai_make_glyph_tis (font_info, log_glyphs[i]);
+      if (log_glyphs[i] == TH_BLANK_BASE_GLYPH)
+        {
+          PangoGlyph base = libthai_get_glyph_uni (font_info, 0x25cc);
+          if (base)
+            pango_glyphs[j++] = base;
+        }
+      else
+        pango_glyphs[j++]
+          = (font_info->font_set == THAI_FONT_NONE) ?
+              libthai_make_unknown_glyph (font_info, log_glyphs[i]) :
+              libthai_make_glyph_tis (font_info, log_glyphs[i]);
     }
 
-  return i;
+  return j;
 }
 
 static int
