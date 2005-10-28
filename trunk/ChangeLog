@@ -1,3 +1,10 @@
+2005-10-28  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* src/Makefile.am:  Actually define $no_undefined for DLL building on
+	Win32 (not tested yet, though).
+
+	* COPYING: Update FSF address.
+
 2005-03-15  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* src/libthai-fc.c:

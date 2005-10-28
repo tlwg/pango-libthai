@@ -1,5 +1,9 @@
 ## Process this file with automake to create Makefile.in.
 
+if PLATFORM_WIN32
+no_undefined = -no-undefined
+endif
+
 thai_fc_sources = libthai-shaper.c libthai-shaper.h libthai-fc.c \
                   libthai-ot.c libthai-ot.h
 thai_lang_sources = libthai-lang.c 
