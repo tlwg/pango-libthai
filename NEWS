@@ -1,5 +1,9 @@
 pango-libthai
 
+0.1.5 (2006-03-13)
+=====
+- More PUA support for Mac fonts rendering.
+
 0.1.4 (2004-10-16)
 =====
 - If available, prefer OpenType tables to PUA substitution rendering.
