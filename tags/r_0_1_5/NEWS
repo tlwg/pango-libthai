@@ -1,0 +1,28 @@
+pango-libthai
+
+0.1.5 (2006-03-13)
+=====
+- More PUA support for Mac fonts rendering.
+
+0.1.4 (2004-10-16)
+=====
+- If available, prefer OpenType tables to PUA substitution rendering.
+- Effective PUA-based rendering with Thai OSX fonts.
+- Better rendering of dangling upper/lower marks. Now dottedcircle becomes
+  optional rather than mandatory. As a result, PUA-based rendering with
+  Windows fonts gets turned on again.
+- Some code clean-ups.
+
+0.1.3 (2004-09-24)
+=====
+- Rewrite module entries as per new specification in pango 1.3/1.4.
+- Use fontconfig backend instead of x/xft/ft2.
+- Handle non-TIS characters. Without that, many apps will crash.
+- OpenType support.
+
+
+0.1.2 (2004-02-22)
+=====
+
+- Use dottedcircle as the base for floating upper/lower vowels.
+- More strict check in configure script
