@@ -1,3 +1,11 @@
+pango-libthai (0.1.5-3) unstable; urgency=low
+
+  * actually closed ITP bug (Closes: #358541)
+  * debian/rules:
+    - removed commented debhelper instructions
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Mon, 27 Mar 2006 17:46:09 +0700
+
 pango-libthai (0.1.5-2) unstable; urgency=low
 
   * initial debian version
