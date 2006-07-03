@@ -51,12 +51,12 @@ libthai_make_unknown_glyph (ThaiFontInfo *font_info, gunichar c);
  * Public functions
  */
 void
-libthai_engine_shape (PangoEngineShape *engine,
-                      PangoFont        *font,
-                      const char       *text,
-                      gint              length,
-                      PangoAnalysis    *analysis,
-                      PangoGlyphString *glyphs);
+libthai_engine_shape (PangoEngineShape    *engine,
+                      PangoFont           *font,
+                      const char          *text,
+                      int                  length,
+                      const PangoAnalysis *analysis,
+                      PangoGlyphString    *glyphs);
 
 #endif /* __THAI_SHAPER_H__ */
 

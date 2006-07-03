@@ -1,5 +1,10 @@
 2006-07-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* src/libthai-shaper.{h,c}: Update libthai_engine_shape() prototype to
+	match recent pango API.
+
+2006-07-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* src/libthai-lang.c: Add missing <string.h>. Cast (char *) to 
 	(thchar_t *) and vice versa where necessary.
 
