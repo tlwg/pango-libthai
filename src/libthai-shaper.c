@@ -32,6 +32,7 @@
 #include <glib.h>
 #include <pango/pango-engine.h>
 #include <thai/thrend.h>
+#include <thai/thwctype.h>
 #include "libthai-shaper.h"
 #include "libthai-ot.h"
 
@@ -104,8 +105,6 @@ static int
 make_logical_glyphs (ThaiFontInfo *font_info, struct thcell_t tis_cell,
                      thglyph_t log_glyphs[], size_t n_log_glyphs)
 {
-  int i;
-
   switch (font_info->font_set)
     {
       case THAI_FONT_NONE:
@@ -134,10 +133,11 @@ render_tis_chunk (ThaiFontInfo     *font_info,
   gint      tis_length;
   gint      i, j, n;
 
-  tis_text = g_convert (chunk_text, chunk_length, "TIS-620", "UTF-8",
-                        NULL, NULL, NULL);
+  tis_text = (thchar_t *) g_convert (chunk_text, chunk_length,
+                                     "TIS-620", "UTF-8",
+                                     NULL, NULL, NULL);
   g_return_if_fail (tis_text != NULL);
-  tis_length = strlen (tis_text);
+  tis_length = strlen ((const char *)tis_text);
 
   for (i = 0; i < tis_length; /* nop */)
     {

@@ -1,3 +1,12 @@
+2006-07-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* src/libthai-lang.c: Add missing <string.h>. Cast (char *) to 
+	(thchar_t *) and vice versa where necessary.
+
+	* src/libthai-shaper.c: Add missing <thai/thwctype.h>. Remove unused
+	local variable in make_logical_glyphs(). Cast (char *) to (thchar_t *)
+	and vice versa where necessary.
+
 2006-03-13  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in, NEWS:
