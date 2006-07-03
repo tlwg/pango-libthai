@@ -1,3 +1,10 @@
+pango-libthai (0.1.5-4) UNRELEASED; urgency=low
+
+  * Bumped standard version to 3.7.2, no changes needed
+  * Added watch file.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Mon,  3 Jul 2006 15:45:35 +0700
+
 pango-libthai (0.1.5-3) unstable; urgency=low
 
   * actually closed ITP bug (Closes: #358541)
