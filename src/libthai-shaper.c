@@ -172,12 +172,12 @@ render_non_thai_char (ThaiFontInfo     *font_info,
 }
 
 void 
-libthai_engine_shape (PangoEngineShape *engine,
-                      PangoFont        *font,
-                      const char       *text,
-                      gint              length,
-                      PangoAnalysis    *analysis,
-                      PangoGlyphString *glyphs)
+libthai_engine_shape (PangoEngineShape    *engine,
+                      PangoFont           *font,
+                      const char          *text,
+                      int                  length,
+                      const PangoAnalysis *analysis,
+                      PangoGlyphString    *glyphs)
 {
   ThaiFontInfo *font_info;
   const char   *p;
