@@ -20,6 +20,7 @@
  */
 
 
+#include <string.h>
 #include <glib.h>
 #include <pango/pango-engine.h>
 #include <pango/pango-break.h>
@@ -55,11 +56,11 @@ libthai_engine_break (PangoEngineLang *engine,
 {
   thchar_t *tis_text;
 
-  tis_text = g_convert (text, len, "TIS-620", "UTF-8",
-                        NULL, NULL, NULL);
+  tis_text = (thchar_t *) g_convert (text, len, "TIS-620", "UTF-8",
+                                     NULL, NULL, NULL);
   if (tis_text)
     {
-      int tis_len = strlen (tis_text);
+      int tis_len = strlen ((const char*)tis_text);
       int *brk_pnts = g_new (int, tis_len);
       int brk_n;
       int i;
