@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: pango-libthai
 Architecture: any
-Depends: libthai0, libpango1.0-0 (>= 1.4.1-1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, libpango1.0-common
 Description: LibThai Pango plugin with word break support
  LibThai is a set of Thai language support routines aimed to ease
  developers' tasks to incorporate Thai language support in their applications.
