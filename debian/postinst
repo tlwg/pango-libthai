@@ -19,11 +19,11 @@ set -e
 
 case "$1" in
     configure)
-	  pango-querymodules > /etc/pango/pango.modules
+	  update-pango-modules
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
-	  pango-querymodules > /etc/pango/pango.modules
+	  update-pango-modules
     ;;
 
     *)

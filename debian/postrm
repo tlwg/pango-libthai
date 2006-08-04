@@ -20,7 +20,7 @@ set -e
 
 case "$1" in
        purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-	  pango-querymodules > /etc/pango/pango.modules
+	  update-pango-modules
         ;;
 
     *)
