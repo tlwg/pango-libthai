@@ -1,3 +1,8 @@
+2006-08-04  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in: Fix wrong PANGO_LIBS and PANGO_FT2_LIBS querying.
+	Remove unused PANGOX_LIBS and PANGOXFT_LIBS.
+
 2006-07-03  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* src/libthai-shaper.{h,c}: Update libthai_engine_shape() prototype to
