@@ -29,52 +29,64 @@ esac
 AC_MSG_RESULT([$pango_platform_win32])
 AM_CONDITIONAL(PLATFORM_WIN32, test "$pango_platform_win32" = "yes")
 
-have_freetype=false
-have_fontconfig=false
-
 #
-# Check for fontconfig
+# Checks for required libraries
 #
-PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1, have_fontconfig=true, :)
-
-if $have_fontconfig ; then
-  #
-  # Checks for FreeType
-  #
-  FREETYPE_LIBS=
-  FREETYPE_CFLAGS=
-  AC_PATH_PROG(FREETYPE_CONFIG, freetype-config, no)
-  if test "x$FREETYPE_CONFIG" != "xno" ; then
-    FREETYPE_CFLAGS=`$FREETYPE_CONFIG --cflags`
-    FREETYPE_LIBS=`$FREETYPE_CONFIG --libs`
-
-    pango_save_ldflags=$LDFLAGS
-    LDFLAGS="$LDFLAGS $FREETYPE_LIBS"
-    AC_CHECK_LIB(freetype, FT_Get_Next_Char, have_freetype=true, :)
-    LDFLAGS=$pango_save_ldflags
-  fi
-
-  FREETYPE_LIBS="$FONTCONFIG_LIBS $FREETYPE_LIBS"
-  FREETYPE_CFLAGS="$FONTCONFIG_CFLAGS $FREETYPE_CFLAGS"
-
-  AC_SUBST(FREETYPE_LIBS)
-  AC_SUBST(FREETYPE_CFLAGS)
-
-else
-  AC_MSG_WARN([No fontconfig found, skipping tests for FreeType])
-fi
-
-AM_CONDITIONAL(HAVE_FREETYPE, $have_freetype)
-
 PKG_CHECK_MODULES(PANGO, pango >= $PANGO_REQUIRED_VERSION)
-PKG_CHECK_MODULES(PANGOFT2, pangoft2 >= $PANGO_REQUIRED_VERSION)
 PKG_CHECK_MODULES(LIBTHAI, libthai >= $LIBTHAI_REQUIRED_VERSION)
 
 PANGO_MODULE_VERSION=`$PKG_CONFIG --variable=pango_module_version pango`
 AC_SUBST(PANGO_MODULE_VERSION)
 
-# Honor aclocal flags
-ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
+#
+# Check for command-line options
+#
+AC_ARG_ENABLE(shaping,
+              [AC_HELP_STRING([--enable-shaping],
+                              [enable shaping engine build])],
+              , enable_shaping="no")
+
+have_freetype=false
+have_fontconfig=false
+
+if test "x$enable_shaping" = "xyes"; then
+  #
+  # Check for fontconfig
+  #
+  PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1, have_fontconfig=true, :)
+
+  if $have_fontconfig ; then
+    #
+    # Checks for FreeType
+    #
+    FREETYPE_LIBS=
+    FREETYPE_CFLAGS=
+    AC_PATH_PROG(FREETYPE_CONFIG, freetype-config, no)
+    if test "x$FREETYPE_CONFIG" != "xno" ; then
+      FREETYPE_CFLAGS=`$FREETYPE_CONFIG --cflags`
+      FREETYPE_LIBS=`$FREETYPE_CONFIG --libs`
+  
+      pango_save_ldflags=$LDFLAGS
+      LDFLAGS="$LDFLAGS $FREETYPE_LIBS"
+      AC_CHECK_LIB(freetype, FT_Get_Next_Char, have_freetype=true, :)
+      LDFLAGS=$pango_save_ldflags
+    fi
+  
+    FREETYPE_LIBS="$FONTCONFIG_LIBS $FREETYPE_LIBS"
+    FREETYPE_CFLAGS="$FONTCONFIG_CFLAGS $FREETYPE_CFLAGS"
+  
+    AC_SUBST(FREETYPE_LIBS)
+    AC_SUBST(FREETYPE_CFLAGS)
+  
+    PKG_CHECK_MODULES(PANGOFT2, pangoft2 >= $PANGO_REQUIRED_VERSION)
+
+  else
+    AC_MSG_WARN([No fontconfig found, skipping tests for FreeType])
+  fi
+fi
+
+AM_CONDITIONAL(ENABLE_SHAPING,
+               test "x$enable_shaping" = "xyes" && $have_freetype)
 
 AC_OUTPUT(
   Makefile 

@@ -1,5 +1,12 @@
 2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* configure.in, src/Makefile.am: Add --enable-shaping configure option
+	so the shaping engine is not built by default, and can be turned on.
+
+	* README: Document the build option.
+
+2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* README: Write the package info.
 
 2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
