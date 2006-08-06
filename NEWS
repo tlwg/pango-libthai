@@ -1,5 +1,11 @@
 pango-libthai
 
+0.1.6 (2006-08-06)
+=====
+- Fix compiler warnings.
+- Clean up the build system, fixing bug about incorrect link flags.
+- Shaping engine is now not built by default, but can be turned on.
+
 0.1.5 (2006-03-13)
 =====
 - More PUA support for Mac fonts rendering.
