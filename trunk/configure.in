@@ -10,7 +10,7 @@ PANGO_REQUIRED_VERSION=1.4.1
 LIBTHAI_REQUIRED_VERSION=0.1.3
 
 dnl Initialize automake stuff
-AM_INIT_AUTOMAKE(pango-libthai, 0.1.5)
+AM_INIT_AUTOMAKE(pango-libthai, 0.1.6)
 
 AC_PROG_CC
 AM_DISABLE_STATIC
