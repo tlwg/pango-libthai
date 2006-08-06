@@ -1,3 +1,11 @@
+2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* configure.in: Remove unneeded check for Xft and duplicated check for
+	freetype. Remove unused gdi32 stuffs for Win32. Simplify pkg-config
+	checks for pango, pangoft2 and libthai flags.
+
+	* src/Makefile.am: Rearrange make rules and remove unused stuffs.
+
 2006-08-04  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in: Fix wrong PANGO_LIBS and PANGO_FT2_LIBS querying.

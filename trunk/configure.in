@@ -29,61 +29,12 @@ esac
 AC_MSG_RESULT([$pango_platform_win32])
 AM_CONDITIONAL(PLATFORM_WIN32, test "$pango_platform_win32" = "yes")
 
-#
-# Checks for FreeType
-#
-FREETYPE_LIBS=
-FREETYPE_CFLAGS=
 have_freetype=false
-AC_PATH_PROG(FREETYPE_CONFIG, freetype-config, no)
-if test "x$FREETYPE_CONFIG" != "xno" ; then
-  FREETYPE_CFLAGS=`$FREETYPE_CONFIG --cflags`
-  FREETYPE_LIBS=`$FREETYPE_CONFIG --libs`
-
-  pango_save_ldflags=$LDFLAGS
-  LDFLAGS="$LDFLAGS $FREETYPE_LIBS"
-  AC_CHECK_LIB(freetype, FT_New_Face, have_freetype=true, :)
-  LDFLAGS=$pango_save_ldflags
-
-  if $have_freetype ; then
-    pango_save_cppflags="$CPPFLAGS"
-    CPPFLAGS="$CPPFLAGS $FREETYPE_CFLAGS"
-
-    AC_MSG_CHECKING([For sufficiently new FreeType (at least 2.0.1)])
-    AC_TRY_COMPILE([
-#include FT_FREETYPE_H
-#include FT_ERRORS_H
-]
-                ,[(void)1;],:,have_freetype=false)
-    if $have_freetype ; then
-      AC_MSG_RESULT(yes)
-    else
-      AC_MSG_RESULT(no)
-    fi
-
-    CPPFLAGS="$pango_save_cppflags"
-  fi
-fi
-AC_SUBST(FREETYPE_LIBS)
-AC_SUBST(FREETYPE_CFLAGS)
-
-## see which freetype we have, 2.0.3 vs. 2.0.4
-pango_save_cppflags="$CPPFLAGS"  
-CPPFLAGS="$CPPFLAGS $FREETYPE_CFLAGS"
-AC_CHECK_HEADER(freetype/internal/tterrors.h, AC_DEFINE(HAVE_FREETYPE_2_0_3))
-CPPFLAGS="$pango_save_cppflags"
-
-## Check to see whether we have FT_Get_First_Char(), new in 2.0.9
-pango_save_libs=$LIBS
-LIBS="$LIBS $FREETYPE_LIBS"
-AC_CHECK_FUNCS(FT_Get_First_Char)
-LIBS=$pango_save_libs
+have_fontconfig=false
 
 #
 # Check for fontconfig
 #
-have_fontconfig=false
-
 PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1, have_fontconfig=true, :)
 
 if $have_fontconfig ; then
@@ -109,73 +60,18 @@ if $have_fontconfig ; then
   AC_SUBST(FREETYPE_LIBS)
   AC_SUBST(FREETYPE_CFLAGS)
 
-  #
-  # Checks for Xft/XRender
-  #
-  if $have_x && $have_freetype ; then
-    PKG_CHECK_MODULES(XFT, xft >= 2.0.0, have_xft=true, :)
-  fi
-
-  AC_SUBST(XFT_LIBS)
-  AC_SUBST(XFT_CFLAGS)
 else
-  AC_MSG_WARN([No fontconfig found, skipping tests for FreeType and Xft])
+  AC_MSG_WARN([No fontconfig found, skipping tests for FreeType])
 fi
 
 AM_CONDITIONAL(HAVE_FREETYPE, $have_freetype)
-AM_CONDITIONAL(HAVE_XFT, $have_xft)
 
-#
-# Checks for Win32 GDI
-#
-have_win32=false
-WIN32_LIBS=""
-WIN32_CFLAGS=""
-# The following doesn't work with autoconf-2.13, so we check $host instead
-# AC_CHECK_LIB(gdi32, GetTextMetricsA@8, have_win32=true, : )
-case "$host" in
-  *-*-mingw*|*-*-cygwin*) have_win32=true ;;
-esac
-
-
-if test $have_win32 = true; then
-  WIN32_LIBS="-lgdi32"
-fi
-
-AC_SUBST(WIN32_LIBS)
-AM_CONDITIONAL(HAVE_WIN32, $have_win32) 
-
-#
-# We must have some backend defined, in order for the pango-querymodules
-# rule in pango/Makefile.am to work correctly. If you are up to writing
-# a new Pango backend outside of Pango, you are up to sending the necessary
-# patch to fix that rule. :-)
-#
-if $have_freetype || $have_x || $have_xft || $have_win32  ; then : ; else
-  AC_MSG_ERROR([*** Didn't find any of FreeType, X11, or Win32.
-*** Must have at least one backend to build Pango.])
-fi
-
-
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, pango >= $PANGO_REQUIRED_VERSION)
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, libthai >= $LIBTHAI_REQUIRED_VERSION)
+PKG_CHECK_MODULES(PANGO, pango >= $PANGO_REQUIRED_VERSION)
+PKG_CHECK_MODULES(PANGOFT2, pangoft2 >= $PANGO_REQUIRED_VERSION)
+PKG_CHECK_MODULES(LIBTHAI, libthai >= $LIBTHAI_REQUIRED_VERSION)
 
 PANGO_MODULE_VERSION=`$PKG_CONFIG --variable=pango_module_version pango`
 AC_SUBST(PANGO_MODULE_VERSION)
-
-PANGO_CFLAGS=`$PKG_CONFIG --cflags pango`
-PANGO_LIBS=`$PKG_CONFIG --libs pango`
-PANGOFT2_LIBS=`$PKG_CONFIG --libs pangoft2`
-
-AC_SUBST(PANGO_CFLAGS)
-AC_SUBST(PANGO_LIBS)
-AC_SUBST(PANGOFT2_LIBS)
-
-LIBTHAI_LIBS="`$PKG_CONFIG --libs libthai`"
-LIBTHAI_CFLAGS="`$PKG_CONFIG --cflags libthai`"
-
-AC_SUBST(LIBTHAI_LIBS)
-AC_SUBST(LIBTHAI_CFLAGS)
 
 # Honor aclocal flags
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
