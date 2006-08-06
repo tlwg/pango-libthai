@@ -8,15 +8,18 @@ thai_fc_sources = libthai-shaper.c libthai-shaper.h libthai-fc.c \
                   libthai-ot.c libthai-ot.h
 thai_lang_sources = libthai-lang.c 
 
-pangolibs = $(PANGO_LIBS) $(LIBTHAI_LIBS)
-pangoft2libs = $(PANGOFT2_LIBS) $(FREETYPE_LIBS) $(pangolibs) $(LIBTHAI_LIBS)
-
-moddefine = $(FT2_PREFIX)
 moduledir = $(libdir)/pango/$(PANGO_MODULE_VERSION)/modules
+
+pangolibs = $(PANGO_LIBS) $(LIBTHAI_LIBS)
 
 if HAVE_FREETYPE
 PANGO_FC_INCLUDES = $(FREETYPE_CFLAGS)
 PANGO_FC_MODULES = pango-libthai-fc.la
+pangoft2libs = $(PANGOFT2_LIBS) $(FREETYPE_LIBS) $(pangolibs)
+else
+PANGO_FC_INCLUDES =
+PANGO_FC_MODULES =
+pangoft2libs =
 endif
 
 INCLUDES =			\
@@ -24,9 +27,7 @@ INCLUDES =			\
 	-DG_DISABLE_DEPRECATED	\
 	$(PANGO_CFLAGS)		\
 	$(LIBTHAI_CFLAGS)	\
-	$(moddefine)		\
-	$(GLIB_CFLAGS)		\
-	$(FREETYPE_CFLAGS)
+	$(PANGO_FC_INCLUDES)
 
 module_LTLIBRARIES = $(PANGO_FC_MODULES) pango-libthai-lang.la
 
@@ -55,6 +56,3 @@ install-data-hook:
 	  echo "***" ; 							\
 	fi
 
-included-modules: $(noinst_LTLIBRARIES)
-
-.PHONY: included-modules
