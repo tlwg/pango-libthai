@@ -64,7 +64,7 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/pango-libthai.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/pango-libthai
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 
 
 # Build architecture-independent files here.
@@ -77,12 +77,12 @@ binary-arch: build install
 	dh_testroot
 	dh_installchangelogs ChangeLog
 	dh_installdocs
-	dh_installexamples
-	dh_installman
+	dh_install --sourcedir=debian/tmp
 	dh_link
 	dh_strip
 	dh_compress
 	dh_fixperms
+	dh_makeshlibs --noscripts
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol

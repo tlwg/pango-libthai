@@ -1,15 +1,21 @@
-pango-libthai (0.1.5-4) UNRELEASED; urgency=medium
+pango-libthai (0.1.6-1) unstable; urgency=medium
 
   * Urgency medium due to RC bug fix.
+  * New upstream release.
+    - Fix compiler warnings.
+    - Clean up the build system, fixing bug about incorrect link flags.
   * Depend on libpango1.0-common and use update-pango-modules instead of
     calling pango-querymodules directly. (Closes: #381292)
   * Use ${shlibs:Depends}, ${misc:Depends} instead of hard-coded depends.
   * Add back config.sub and config.guess replacements.
-  * Remove unneeded dh_makeshlibs.
+  * Do not install *.la files.
+  * Install upstream README.
+  * Remove unneeded debhelper commands: dh_installexamples, dh_installman.
+  * Apply --noscript option with dh_makeshlibs.
   * Bump standard version to 3.7.2, no changes needed.
   * Add watch file.
 
- -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Fri,  4 Aug 2006 18:22:55 +0700
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Sun,  6 Aug 2006 18:09:28 +0700
 
 pango-libthai (0.1.5-3) unstable; urgency=low
 
