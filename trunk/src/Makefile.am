@@ -12,8 +12,8 @@ moduledir = $(libdir)/pango/$(PANGO_MODULE_VERSION)/modules
 
 pangolibs = $(PANGO_LIBS) $(LIBTHAI_LIBS)
 
-if HAVE_FREETYPE
-PANGO_FC_INCLUDES = $(FREETYPE_CFLAGS)
+if ENABLE_SHAPING
+PANGO_FC_INCLUDES = $(PANGOFT2_CFLAGS) $(FREETYPE_CFLAGS)
 PANGO_FC_MODULES = pango-libthai-fc.la
 pangoft2libs = $(PANGOFT2_LIBS) $(FREETYPE_LIBS) $(pangolibs)
 else

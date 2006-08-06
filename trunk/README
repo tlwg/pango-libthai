@@ -15,7 +15,24 @@ available in Pango. It rather demonstrates another possible code structure,
 in which input and output methods can share some functionalities according
 to WTT 2.0, a Thai de-facto standard for input/output methods.
 
-Further Information:
+Installation
+============
+
+Of course, the obvious required packages for building this package are:
+  - pango
+  - libthai
+
+Since version 0.1.6, you can optionally turn on the shaping engine build.
+If unspecified, it is disabled by default. You can enable it using 
+--enable-shaping configure option. And you will need additional packages:
+  - freetype
+  - fontconfig
+In most cases, these packages are already available with your Pango 
+installation.
+
+Further Information
+===================
+
   - LibThai project: http://libthai.sourceforge.net/
   - Pango project:   http://www.pango.org/
 
