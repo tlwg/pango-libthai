@@ -1,0 +1,21 @@
+Pango-LibThai
+=============
+
+Pango-Libthai is a sub-project under LibThai project, which plugs some LibThai 
+functionality into Pango rendering engine.
+
+Pango-LibThai provides third-party plug-in for Thai support in Pango text 
+layout engine. The main purpose is to provide Pango language engine which
+implements break positions analysis, including word breaks, via pango_break()
+calls, using LibThai routines. However, a shaping engine is also provided
+as a supplementary.
+
+The shaping engine is not meant to replace or duplicate the stock engine
+available in Pango. It rather demonstrates another possible code structure, 
+in which input and output methods can share some functionalities according
+to WTT 2.0, a Thai de-facto standard for input/output methods.
+
+Further Information:
+  - LibThai project: http://libthai.sourceforge.net/
+  - Pango project:   http://www.pango.org/
+

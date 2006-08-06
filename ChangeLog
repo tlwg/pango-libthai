@@ -1,5 +1,9 @@
 2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* README: Write the package info.
+
+2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* configure.in: Remove unneeded check for Xft and duplicated check for
 	freetype. Remove unused gdi32 stuffs for Win32. Simplify pkg-config
 	checks for pango, pangoft2 and libthai flags.
