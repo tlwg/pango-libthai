@@ -1,0 +1,61 @@
+pango-libthai (0.1.5-4) UNRELEASED; urgency=medium
+
+  * Urgency medium due to RC bug fix.
+  * Depend on libpango1.0-common and use update-pango-modules instead of
+    calling pango-querymodules directly. (Closes: #381292)
+  * Use ${shlibs:Depends}, ${misc:Depends} instead of hard-coded depends.
+  * Add back config.sub and config.guess replacements.
+  * Remove unneeded dh_makeshlibs.
+  * Bump standard version to 3.7.2, no changes needed.
+  * Add watch file.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Fri,  4 Aug 2006 18:22:55 +0700
+
+pango-libthai (0.1.5-3) unstable; urgency=low
+
+  * actually closed ITP bug (Closes: #358541)
+  * debian/rules:
+    - removed commented debhelper instructions
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Mon, 27 Mar 2006 17:46:09 +0700
+
+pango-libthai (0.1.5-2) unstable; urgency=low
+
+  * initial debian version
+  * rebuilt against pango 1.12.0 in sid
+  * debian/rules:
+    - removed replacement of upstream's config.sub and config.guess
+  * debian/control:
+    - changed standard version to 3.6.2.2
+  * debian/copyright:
+    - mentioned system file for LGPL-2
+  * debian/docs:
+    - remove zero-byte README until upstream ships a valid one
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Tue, 21 Mar 2006 17:54:31 +0700
+
+pango-libthai (0.1.5-1ubuntu2) dapper; urgency=low
+
+  * set architecture to any
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 17 Mar 2006 12:20:04 +0000
+
+pango-libthai (0.1.5-1ubuntu1) dapper; urgency=low
+
+  * Rebuilt for pango 1.12.0.
+  * initial version for ubuntu
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Mon, 13 Mar 2006 17:48:59 +0000
+
+pango-libthai (0.1.5-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Tue, 14 Mar 2006 00:51:19 +0700
+
+pango-libthai (0.1.4-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Sun, 17 Apr 2005 12:14:47 +0700
+
