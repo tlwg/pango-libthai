@@ -10,7 +10,7 @@ PANGO_REQUIRED_VERSION=1.4.1
 LIBTHAI_REQUIRED_VERSION=0.1.3
 
 dnl Initialize automake stuff
-AM_INIT_AUTOMAKE(pango-libthai, 0.1.6)
+AM_INIT_AUTOMAKE(pango-libthai, 0.1.7)
 
 AC_PROG_CC
 AM_DISABLE_STATIC
@@ -28,6 +28,12 @@ case "$host" in
 esac
 AC_MSG_RESULT([$pango_platform_win32])
 AM_CONDITIONAL(PLATFORM_WIN32, test "$pango_platform_win32" = "yes")
+
+# Checks for programs.
+AC_ISC_POSIX
+AM_PROG_CC_STDC
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
 
 #
 # Checks for required libraries

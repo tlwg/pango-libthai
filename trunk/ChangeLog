@@ -1,3 +1,7 @@
+2006-08-17  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* confgure.in: Post-release version bump. Added some more checks.
+
 2006-08-06  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* configure.in, NEWS:
