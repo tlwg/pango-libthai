@@ -1,3 +1,16 @@
+pango-libthai (0.1.6-2) unstable; urgency=low
+
+  * Use new Pango modules handling. Thanks to Loic Minier for the patch.
+    (Closes: #388251)
+    - Bump up the libpango1.0-dev build-dep to >= 1.14.0-1.
+    - Call dh_pangomodules.
+    - Remove update-pango-modules from postrm and postinst, and hence remove
+      postinst and postrm completely, as well as dependency on
+      libpango1.0-common.
+  * Adjust long description in sync with libthai package.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Tue, 26 Sep 2006 21:38:34 +0700
+
 pango-libthai (0.1.6-1) unstable; urgency=medium
 
   * Urgency medium due to RC bug fix.
