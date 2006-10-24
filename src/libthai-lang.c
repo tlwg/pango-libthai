@@ -60,32 +60,13 @@ libthai_engine_break (PangoEngineLang *engine,
                                      NULL, NULL, NULL);
   if (tis_text)
     {
-      int tis_len = strlen ((const char*)tis_text);
-      int *brk_pnts = g_new (int, tis_len);
+      int brk_len = strlen ((const char*)tis_text) + 1;
+      int *brk_pnts = g_new (int, brk_len);
       int brk_n;
       int i;
 
-      /* set & initialize general attribs */
-      for (i = 0; i < attrs_len; i++)
-        {
-          attrs[i].is_line_break = FALSE;
-          attrs[i].is_mandatory_break = FALSE;
-          attrs[i].is_cursor_position = th_iscombchar (tis_text[i]) ? FALSE : TRUE;
-          attrs[i].is_char_break = attrs[i].is_cursor_position;
-          attrs[i].is_white = isspace (tis_text[i]) ? TRUE : FALSE;
-
-          attrs[i].is_word_start = FALSE;
-          attrs[i].is_word_end = FALSE;
-
-          attrs[i].is_sentence_boundary = FALSE;
-          attrs[i].is_sentence_start = FALSE;
-          attrs[i].is_sentence_end = FALSE;
-
-          attrs[i].backspace_deletes_character = attrs[i].is_cursor_position;
-        }
-
       /* find line break positions */
-      brk_n = th_brk (tis_text, brk_pnts, tis_len);
+      brk_n = th_brk (tis_text, brk_pnts, brk_len);
       for (i = 0; i < brk_n; i++)
         {
           attrs[brk_pnts[i]].is_line_break = TRUE;
