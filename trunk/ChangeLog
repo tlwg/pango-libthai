@@ -1,3 +1,11 @@
+2006-10-24  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	* src/libthai-lang.c (libthai_engine_break): Do not initialize logical
+	attributes, as that will override what pango_default_break() has done.
+	Also allocate break points buffer with strlen+1, rather than just
+	strlen, to cover all possible break positions. (Thanks to Behdad
+	Esfahbod for suggestion.)
+
 2006-08-17  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* confgure.in: Post-release version bump. Added some more checks.
