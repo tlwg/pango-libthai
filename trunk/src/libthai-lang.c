@@ -24,7 +24,7 @@
 #include <glib.h>
 #include <pango/pango-engine.h>
 #include <pango/pango-break.h>
-#include <thai/thctype.h>
+#include <thai/thwchar.h>
 #include <thai/thbrk.h>
 
 /* No extra fields needed */
@@ -46,6 +46,28 @@ static PangoEngineInfo script_engines[] = {
   }
 };
 
+static thchar_t *
+utf8_to_tis (const char *text, int len)
+{
+  thchar_t   *tis_text;
+  thchar_t   *tis_p;
+  const char *text_p;
+
+  if (len < 0)
+    len = strlen (text);
+
+  tis_text = g_new (thchar_t, g_utf8_strlen (text, len) + 1);
+  if (!tis_text)
+    return NULL;
+
+  tis_p = tis_text;
+  for (text_p = text; text_p < text + len; text_p = g_utf8_next_char (text_p))
+    *tis_p++ = th_uni2tis (g_utf8_get_char (text_p));
+  *tis_p = '\0';
+
+  return tis_text;
+}
+
 static void
 libthai_engine_break (PangoEngineLang *engine,
                       const char      *text,
@@ -56,8 +78,7 @@ libthai_engine_break (PangoEngineLang *engine,
 {
   thchar_t *tis_text;
 
-  tis_text = (thchar_t *) g_convert (text, len, "TIS-620", "UTF-8",
-                                     NULL, NULL, NULL);
+  tis_text = utf8_to_tis (text, len);
   if (tis_text)
     {
       int brk_len = strlen ((const char*)tis_text) + 1;
