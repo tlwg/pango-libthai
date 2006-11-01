@@ -1,3 +1,11 @@
+2006-11-01  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+
+	* src/libthai-lang.c (libthai_engine_break): Convert UTF-8 to TIS-620
+	character-wise instead of using g_convert(), to allow non-TIS
+	characters in string, and to allow proper fallback to happen. (Thanks
+	again to Behdad Esfahbod for pointing out.)
+
 2006-10-24  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	* src/libthai-lang.c (libthai_engine_break): Do not initialize logical
