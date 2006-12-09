@@ -1,3 +1,11 @@
+pango-libthai (0.1.6-3) unstable; urgency=low
+
+  * Backport fixes for bugs about logical attributes overriding and character 
+    set conversion from upstream CVS, in sync to stock engine shipped with 
+    pango 1.14.9.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Sat,  9 Dec 2006 08:53:51 +0700
+
 pango-libthai (0.1.6-2) unstable; urgency=low
 
   * Use new Pango modules handling. Thanks to Loic Minier for the patch.
