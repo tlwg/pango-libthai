@@ -1,3 +1,11 @@
+pango-libthai (0.1.6-4) UNRELEASED; urgency=low
+
+  * debian/install: Use wildcard for pango binary version directory instead
+    of hard-coding.
+  * debian/dirs: Removed, unneeded.
+
+ -- Theppitak Karoonboonyanan <thep@linux.thai.net>  Tue, 03 Apr 2007 10:17:37 +0700
+
 pango-libthai (0.1.6-3) unstable; urgency=low
 
   * Backport fixes for bugs about logical attributes overriding and character 
