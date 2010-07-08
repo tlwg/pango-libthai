@@ -60,11 +60,11 @@ static PangoEngineInfo script_engines[] = {
 
 /* TIS-to-Unicode glyph maps for characters 0x80-0xff
  */
-static int tis620_0[128] = {
-    /**/ 0,      0,      0,      0,      0,      0,      0,      0, 
-    /**/ 0,      0,      0,      0,      0,      0,      0,      0, 
-    /**/ 0,      0,      0,      0,      0,      0,      0,      0, 
-    /**/ 0,      0,      0,      0,      0,      0,      0,      0, 
+static const int tis620_0[128] = {
+    /**/ 0,      0,      0,      0,      0,      0,      0,      0,
+    /**/ 0,      0,      0,      0,      0,      0,      0,      0,
+    /**/ 0,      0,      0,      0,      0,      0,      0,      0,
+    /**/ 0,      0,      0,      0,      0,      0,      0,      0,
     0x0020, 0x0e01, 0x0e02, 0x0e03, 0x0e04, 0x0e05, 0x0e06, 0x0e07,
     0x0e08, 0x0e09, 0x0e0a, 0x0e0b, 0x0e0c, 0x0e0d, 0x0e0e, 0x0e0f,
     0x0e10, 0x0e11, 0x0e12, 0x0e13, 0x0e14, 0x0e15, 0x0e16, 0x0e17,
@@ -79,7 +79,7 @@ static int tis620_0[128] = {
     0x0e58, 0x0e59, 0x0e5a, 0x0e5b,      0,      0,      0,      0
 };
 
-static int tis620_1[128] = {
+static const int tis620_1[128] = {
     0xf89e,      0,      0, 0xf88c, 0xf88f, 0xf892, 0xf895, 0xf898,
     0xf88b, 0xf88e, 0xf891, 0xf894, 0xf897,      0,      0, 0xf899,
     0xf89a,      0, 0xf884, 0xf889, 0xf885, 0xf886, 0xf887, 0xf888,
@@ -98,7 +98,7 @@ static int tis620_1[128] = {
     0x0e58, 0x0e59,      0,      0, 0xf89b, 0xf89c, 0xf89d,      0
 };
 
-static int tis620_2[128] = {
+static const int tis620_2[128] = {
     0xf700, 0xf701, 0xf702, 0xf703, 0xf704, 0x2026, 0xf705, 0xf706,
     0xf707, 0xf708, 0xf709, 0xf70a, 0xf70b, 0xf70c, 0xf70d, 0xf70e,
     0xf70f, 0x2018, 0x2019, 0x201c, 0x201d, 0x2022, 0x2013, 0x2014,
@@ -136,7 +136,7 @@ contain_glyphs(PangoFont *font, const int glyph_map[128])
 /* Returns a structure with information we will use to rendering given the
  * #PangoFont. This is computed once per font and cached for later retrieval.
  */
-ThaiFontInfo *
+static ThaiFontInfo *
 libthai_get_font_info (PangoFont *font)
 {
   ThaiFontInfo *font_info;

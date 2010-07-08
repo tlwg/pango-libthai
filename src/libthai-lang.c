@@ -120,7 +120,7 @@ PANGO_MODULE_ENTRY(exit) (void)
 {
 }
 
-void 
+void
 PANGO_MODULE_ENTRY(list) (PangoEngineInfo **engines, gint *n_engines)
 {
   *engines = script_engines;

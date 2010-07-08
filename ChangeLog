@@ -1,5 +1,10 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* src/libthai-fc.c: Add const, static where possible.
+	* src/libthai-fc.c, src/libthai-lang.c: Remove trailing space.
+
+2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* src/*.{c,h}: Update copyright notice and FSF address.
 
 2006-11-01  Theppitak Karoonboonyanan <thep@linux.thai.net>
