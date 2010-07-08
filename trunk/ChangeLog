@@ -1,5 +1,9 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* src/libthai-fc.c (libthai_get_font_info): Remove wrong static decl.
+
+2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	Merge changes from GNOME pango: reduce memory allocation.
 	(Credit: Chris Wilson, GNOME #561740)
 
