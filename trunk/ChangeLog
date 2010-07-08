@@ -1,5 +1,23 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	GNOME Pango partial merge: Use the new ruleset description based API.
+	(GNOME Credit: Behdad Esfahbod)
+
+	* src/libthai-ot.h, src/libthai-ot.c (libthai_ot_get_ruleset):
+	Get OT ruleset with pango_ot_get_for_description() instead of low-level
+	pango_ot_info_find_script() and pango_ot_ruleset_add_feature().
+	This requires 2 additional args (script & language).
+	* src/libthai-ot.h, src/libthai-ot.c (libthai_ot_shape):
+	Add PangoAnalysis arg, for script & language and other things.
+	Declare ot_ruleset as const pointer. Add pango_ot_buffer_set_rtl()
+	call.
+	* src/libthai-shaper.h, src/libthai-fc.c (libthai_get_font_info):
+	Add script & language args to pass over to libthai_ot_get_ruleset().
+	* src/libthai-shaper.c (libthai_engine_shape):
+	Pass additional args to libthai_get_font_info() and libthai_ot_shape().
+
+2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* src/libthai-shaper.h (libthai_make_unknown_glyph):
 	Rename gunichar arg to 'uc'.
 	* src/libthai-fc.c (libthai_make_unknown_glyph): Replace deprecated
@@ -14,7 +32,7 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	Merge changes from GNOME pango: reduce memory allocation.
-	(Credit: Chris Wilson, GNOME #561740)
+	(GNOME Credit: Chris Wilson, GNOME #561740)
 
 	* src/thai-lang.c (utf8_to_tis): Accept output buffer as argument,
 	rather than allocating new memory for return.

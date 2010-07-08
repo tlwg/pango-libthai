@@ -137,7 +137,9 @@ contain_glyphs(PangoFont *font, const int glyph_map[128])
  * #PangoFont. This is computed once per font and cached for later retrieval.
  */
 ThaiFontInfo *
-libthai_get_font_info (PangoFont *font)
+libthai_get_font_info (PangoFont     *font,
+                       PangoScript    script,
+                       PangoLanguage *language)
 {
   ThaiFontInfo *font_info;
   static GQuark info_id = 0;
@@ -156,7 +158,7 @@ libthai_get_font_info (PangoFont *font)
       font_info->font = font;
 
       /* detect font set by determining availibility of OT ruleset & glyphs */
-      if (libthai_ot_get_ruleset (font))
+      if (libthai_ot_get_ruleset (font, script, language))
         font_info->font_set = THAI_FONT_TIS;
       else if (contain_glyphs(font, tis620_2))
         font_info->font_set = THAI_FONT_TIS_WIN;
