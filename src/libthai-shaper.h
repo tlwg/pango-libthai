@@ -77,7 +77,7 @@ PangoGlyph
 libthai_make_glyph_uni (ThaiFontInfo *font_info, gunichar uc);
 
 PangoGlyph
-libthai_make_unknown_glyph (ThaiFontInfo *font_info, gunichar c);
+libthai_make_unknown_glyph (ThaiFontInfo *font_info, gunichar uc);
 
 /*
  * Public functions

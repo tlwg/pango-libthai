@@ -1,5 +1,14 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* src/libthai-shaper.h (libthai_make_unknown_glyph):
+	Rename gunichar arg to 'uc'.
+	* src/libthai-fc.c (libthai_make_unknown_glyph): Replace deprecated
+	pango_fc_font_get_unknown_glyph() with PANGO_GET_UNKNOWN_GLYPH().
+	* configure.in:
+	Bump PANGO_REQUIRED_VERSION to 1.19.0 due to the new API.
+
+2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* src/libthai-fc.c (libthai_get_font_info): Remove wrong static decl.
 
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
