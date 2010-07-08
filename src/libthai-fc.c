@@ -136,7 +136,7 @@ contain_glyphs(PangoFont *font, const int glyph_map[128])
 /* Returns a structure with information we will use to rendering given the
  * #PangoFont. This is computed once per font and cached for later retrieval.
  */
-static ThaiFontInfo *
+ThaiFontInfo *
 libthai_get_font_info (PangoFont *font)
 {
   ThaiFontInfo *font_info;
