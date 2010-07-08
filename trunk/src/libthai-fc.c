@@ -140,19 +140,22 @@ static ThaiFontInfo *
 libthai_get_font_info (PangoFont *font)
 {
   ThaiFontInfo *font_info;
-  GQuark info_id = g_quark_from_string ("thai-font-info");
-  
+  static GQuark info_id = 0;
+
+  if (G_UNLIKELY (!info_id))
+    info_id = g_quark_from_string ("thai-font-info");
+
   font_info = g_object_get_qdata (G_OBJECT (font), info_id);
 
-  if (!font_info)
+  if (G_UNLIKELY (!font_info))
     {
       /* No cached information not found, so we need to compute it
        * from scratch
        */
       font_info = g_new (ThaiFontInfo, 1);
       font_info->font = font;
-  
-      /* detect font set by determining availibility of glyphs */
+
+      /* detect font set by determining availibility of OT ruleset & glyphs */
       if (libthai_ot_get_ruleset (font))
         font_info->font_set = THAI_FONT_TIS;
       else if (contain_glyphs(font, tis620_2))
@@ -161,14 +164,14 @@ libthai_get_font_info (PangoFont *font)
         font_info->font_set = THAI_FONT_TIS_MAC;
       else
         font_info->font_set = THAI_FONT_TIS;
-  
+
       g_object_set_qdata_full (G_OBJECT (font), info_id, font_info, (GDestroyNotify)g_free);
     }
 
   return font_info;
 }
 
-static gint
+static gunichar
 get_glyph_index (ThaiFontInfo *font_info, guchar c)
 {
   switch (font_info->font_set) {
@@ -236,7 +239,7 @@ PANGO_MODULE_ENTRY(exit) (void)
 {
 }
 
-void 
+void
 PANGO_MODULE_ENTRY(list) (PangoEngineInfo **engines, gint *n_engines)
 {
   *engines = script_engines;
