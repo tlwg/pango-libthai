@@ -24,52 +24,29 @@
 
 #include "libthai-ot.h"
 
-static gint
-maybe_add_gsub_feature (PangoOTRuleset *ruleset,
-			PangoOTInfo    *info,
-			guint           script_index,
-			PangoOTTag      feature_tag,
-			gulong          property_bit)
+static const PangoOTFeatureMap gsub_features[] =
 {
-  guint feature_index;
-  
-  /* 0xffff == default language system */
-  if (pango_ot_info_find_feature (info, PANGO_OT_TABLE_GSUB,
-				  feature_tag, script_index, 0xffff, &feature_index))
-    {
-      pango_ot_ruleset_add_feature (ruleset, PANGO_OT_TABLE_GSUB, feature_index,
-				    property_bit);
-      return 1;
-    }
-  return 0;
-}
+  {"ccmp", PANGO_OT_ALL_GLYPHS},
+  {"locl", PANGO_OT_ALL_GLYPHS},
+  {"liga", PANGO_OT_ALL_GLYPHS},
+};
 
-static gint
-maybe_add_gpos_feature (PangoOTRuleset *ruleset,
-		        PangoOTInfo    *info,
-			guint           script_index,
-			PangoOTTag      feature_tag,
-			gulong          property_bit)
+static const PangoOTFeatureMap gpos_features[] =
 {
-  guint feature_index;
+  {"kern", PANGO_OT_ALL_GLYPHS},
+  {"mark", PANGO_OT_ALL_GLYPHS},
+  {"mkmk", PANGO_OT_ALL_GLYPHS}
+};
 
-  if (pango_ot_info_find_feature (info, PANGO_OT_TABLE_GPOS,
-				  feature_tag, script_index, 0xffff, &feature_index))
-    {
-      pango_ot_ruleset_add_feature (ruleset, PANGO_OT_TABLE_GPOS, feature_index,
-				    property_bit);
-      return 1;
-    }
-  return 0;
-}
-
-PangoOTRuleset *
-libthai_ot_get_ruleset (PangoFont *font)
+const PangoOTRuleset *
+libthai_ot_get_ruleset (PangoFont     *font,
+                        PangoScript    script,
+                        PangoLanguage *language)
 {
   PangoFcFont    *fc_font;
   FT_Face         face;
   PangoOTInfo    *info;
-  PangoOTRuleset *ruleset = NULL;
+  const PangoOTRuleset *ruleset = NULL;
 
   g_return_val_if_fail (font != NULL, NULL);
 
@@ -78,55 +55,43 @@ libthai_ot_get_ruleset (PangoFont *font)
   g_assert (face != NULL);
 
   info = pango_ot_info_get (face);
-  if (info != NULL)
+  if (G_LIKELY (info))
     {
       static GQuark ruleset_quark = 0;
 
-      if (!ruleset_quark)
+      if (G_UNLIKELY (!ruleset_quark))
         ruleset_quark = g_quark_from_string ("thai-ot-ruleset");
 
       ruleset = g_object_get_qdata (G_OBJECT (info), ruleset_quark);
-      if (!ruleset)
+      if (G_UNLIKELY (!ruleset))
         {
-          PangoOTTag thai_tag = FT_MAKE_TAG ('t', 'h', 'a', 'i');
-          guint      script_index;
-          gint       n = 0;
+          PangoOTRulesetDescription desc;
 
-          ruleset = pango_ot_ruleset_new (info);
+          desc.script = script;
+          desc.language = language;
 
-          if (pango_ot_info_find_script (info, PANGO_OT_TABLE_GSUB,
-				         thai_tag, &script_index))
-	    {
-	      n += maybe_add_gsub_feature (ruleset, info, script_index,
-			                   FT_MAKE_TAG ('c','c','m','p'),
-					   0xFFFF);
-	      n += maybe_add_gsub_feature (ruleset, info, script_index,
-			                   FT_MAKE_TAG ('l','i','g','a'),
-					   0xFFFF);
-	    }
+          desc.n_static_gsub_features = G_N_ELEMENTS (gsub_features);
+          desc.static_gsub_features = gsub_features;
+          desc.n_static_gpos_features = G_N_ELEMENTS (gpos_features);
+          desc.static_gpos_features = gpos_features;
 
-          if (pango_ot_info_find_script (info, PANGO_OT_TABLE_GPOS,
-				         thai_tag, &script_index))
-	    {
-	      n += maybe_add_gpos_feature (ruleset, info, script_index,
-			                   FT_MAKE_TAG ('k','e','r','n'),
-					   0xFFFF);
-	      n += maybe_add_gpos_feature (ruleset, info, script_index,
-			                   FT_MAKE_TAG ('m','a','r','k'),
-					   0xFFFF);
-	      n += maybe_add_gpos_feature (ruleset, info, script_index,
-			                   FT_MAKE_TAG ('m','k','m','k'),
-					   0xFFFF);
-	    }
+          /* TODO populate other_features from analysis->extra_attrs */
+          desc.n_other_features = 0;
+          desc.other_features = NULL;
 
-	  if (n > 0)
-            g_object_set_qdata_full (G_OBJECT (info), ruleset_quark, ruleset,
-	    		             (GDestroyNotify)g_object_unref);
-	  else
-	    {
-	      g_object_unref (ruleset);
-	      ruleset = NULL;
-	    }
+          ruleset = pango_ot_ruleset_get_for_description (pango_ot_info_get (face),
+                                                          &desc);
+
+          if (ruleset)
+            {
+              g_object_set_qdata_full (G_OBJECT (info), ruleset_quark, ruleset,
+                                       (GDestroyNotify)g_object_unref);
+            }
+          else
+            {
+              g_object_unref (ruleset);
+              ruleset = NULL;
+            }
         }
     }
 
@@ -137,15 +102,17 @@ libthai_ot_get_ruleset (PangoFont *font)
 
 
 void 
-libthai_ot_shape (PangoFont        *font,
-               PangoGlyphString *glyphs)
+libthai_ot_shape (PangoFont           *font,
+                  const PangoAnalysis *analysis,
+                  PangoGlyphString    *glyphs)
 {
-  PangoOTRuleset *ot_ruleset;
+  const PangoOTRuleset *ot_ruleset;
 
   g_return_if_fail (font != NULL);
   g_return_if_fail (glyphs != NULL);
 
-  ot_ruleset = libthai_ot_get_ruleset (font);
+  ot_ruleset = libthai_ot_get_ruleset (font, analysis->script,
+                                       analysis->language);
 
   if (ot_ruleset != NULL)
     {
@@ -154,6 +121,7 @@ libthai_ot_shape (PangoFont        *font,
 
       /* prepare ot buffer */
       buffer = pango_ot_buffer_new (PANGO_FC_FONT (font));
+      pango_ot_buffer_set_rtl (buffer, analysis->level % 2 != 0);
       for (i = 0; i < glyphs->num_glyphs; i++)
         {
           pango_ot_buffer_add_glyph (buffer,

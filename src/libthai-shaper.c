@@ -188,7 +188,8 @@ libthai_engine_shape (PangoEngineShape    *engine,
   /* initialization */
   p = text;
   pango_glyph_string_set_size (glyphs, 0);
-  font_info = libthai_get_font_info (font);
+  font_info = libthai_get_font_info (font, analysis->script,
+                                     analysis->language);
 
   while (p < text + length)
     {
@@ -211,6 +212,6 @@ libthai_engine_shape (PangoEngineShape    *engine,
         }
     }
 
-  libthai_ot_shape (font, glyphs);
+  libthai_ot_shape (font, analysis, glyphs);
 }
 

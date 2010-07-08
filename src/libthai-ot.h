@@ -25,12 +25,15 @@
 
 #include <pango/pango-ot.h>
 
-PangoOTRuleset *
-libthai_ot_get_ruleset (PangoFont *font);
+const PangoOTRuleset *
+libthai_ot_get_ruleset (PangoFont     *font,
+                        PangoScript    script,
+                        PangoLanguage *language);
 
 void 
-libthai_ot_shape (PangoFont        *font,
-                  PangoGlyphString *glyphs);
+libthai_ot_shape (PangoFont           *font,
+                  const PangoAnalysis *analysis,
+                  PangoGlyphString    *glyphs);
 
 #endif /* __LIBTHAI_OT_H__ */
 

@@ -62,7 +62,9 @@ struct _ThaiFontInfo
  * Abstract methods (implemented by each shaper module)
  */
 ThaiFontInfo *
-libthai_get_font_info (PangoFont *font);
+libthai_get_font_info (PangoFont     *font,
+                       PangoScript    script,
+                       PangoLanguage *language);
 
 PangoGlyph
 libthai_get_glyph_tis (ThaiFontInfo *font_info, guchar c);
