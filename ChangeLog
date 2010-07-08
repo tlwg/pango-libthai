@@ -1,5 +1,10 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* src/thai-fc.c (libthai_get_font_info): Get quark only once.
+	* src/thai-fc.c (get_glyph_index): Return gunichar instead of gint.
+
+2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	* src/libthai-fc.c: Add const, static where possible.
 	* src/libthai-fc.c, src/libthai-lang.c: Remove trailing space.
 
