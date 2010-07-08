@@ -1,5 +1,17 @@
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	Merge changes from GNOME pango: reduce memory allocation.
+	(Credit: Chris Wilson, GNOME #561740)
+
+	* src/thai-lang.c (utf8_to_tis): Accept output buffer as argument,
+	rather than allocating new memory for return.
+	* src/thai-lang.c (libthai_engine_break): Try to use stack memory
+	first. Only allocate on long data.
+
+2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	Merge changes from GNOME pango: miscellaneous adjustments.
+
 	* src/thai-fc.c (libthai_get_font_info): Get quark only once.
 	* src/thai-fc.c (get_glyph_index): Return gunichar instead of gint.
 
