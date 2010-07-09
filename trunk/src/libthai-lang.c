@@ -31,19 +31,27 @@
 typedef PangoEngineLang      LibThaiEngineLang;
 typedef PangoEngineLangClass LibThaiEngineLangClass;
 
-#define SCRIPT_ENGINE_NAME "LibThaiScriptEngineLang"
-
 static PangoEngineScriptInfo thai_scripts[] = {
   { PANGO_SCRIPT_THAI, "*" }
 };
 
+static PangoEngineScriptInfo lao_scripts[] = {
+  { PANGO_SCRIPT_LAO, "*" }
+};
+
 static PangoEngineInfo script_engines[] = {
   {
-    SCRIPT_ENGINE_NAME,
+    "LibThaiScriptEngineLang",
     PANGO_ENGINE_TYPE_LANG,
     PANGO_RENDER_TYPE_NONE,
     thai_scripts, G_N_ELEMENTS(thai_scripts)
-  }
+  },
+  {
+    "LibThaiLaoScriptEngineLang",
+    PANGO_ENGINE_TYPE_LANG,
+    PANGO_RENDER_TYPE_NONE,
+    lao_scripts, G_N_ELEMENTS(lao_scripts)
+  },
 };
 
 /*
@@ -78,10 +86,35 @@ libthai_engine_break (PangoEngineLang *engine,
   thchar_t *tis_text;
   int *brk_pnts;
   int cnt, i, brk_n;
+  const char *p;
 
   if (len < 0)
     len = strlen (text);
   cnt = g_utf8_strlen (text, len) + 1;
+
+  /* Override UAX#29 GB_Prepend & GB_Extend class for caret movements.
+   * See Bug 576156.
+   */
+  for (i = 0, p = text; i < cnt; i++, p = g_utf8_next_char (p))
+    {
+      gunichar wc = g_utf8_get_char (p);
+      if ((0x0E40 <= wc && wc <= 0x0E44) || (0x0EC0 <= wc && wc <= 0x0EC4))
+        {
+          /* GB_Prepend: override to allow cursor after it */
+          if (i + 1 < cnt)
+            attrs[i + 1].is_cursor_position = TRUE;
+        }
+      else if (wc == 0x0E30 || wc == 0x0E32 || wc == 0x0E33 || wc == 0x0E45 ||
+               wc == 0x0EB0 || wc == 0x0EB2 || wc == 0x0EB3)
+        {
+          /* GB_Extend: override to allow cursor before it */
+          attrs[i].is_cursor_position = TRUE;
+        }
+    }
+
+  /* Only Thai word break engine available for now */
+  if (analysis->script != PANGO_SCRIPT_THAI)
+    return;
 
   tis_text = tis_stack;
   if (cnt > (int) G_N_ELEMENTS (tis_stack))
@@ -140,9 +173,14 @@ PANGO_MODULE_ENTRY(list) (PangoEngineInfo **engines, gint *n_engines)
 PangoEngine *
 PANGO_MODULE_ENTRY(create) (const char *id)
 {
-  if (!strcmp (id, SCRIPT_ENGINE_NAME))
-    return g_object_new (libthai_engine_lang_type, NULL);
-  else
-    return NULL;
+  guint i;
+
+  for (i = 0; i < G_N_ELEMENTS(script_engines); i++)
+    {
+      if (!strcmp (id, script_engines[i].id))
+        return g_object_new (libthai_engine_lang_type, NULL);
+    }
+
+  return NULL;
 }
 

@@ -1,5 +1,18 @@
 2010-07-09  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	Override UAX#29 GB_Prepend & GB_Extend classes for caret movements.
+	(Patch proposed for GNOME #576156)
+
+	* src/libthai-lang.c (script_engines): Add Lao script engine.
+	* src/libthai-lang.c (PANGO_MODULE_ENTRY(create)): Compare each element
+	of script engines, rather than just one literal name, before creating
+	the engine.
+	* src/libthai-lang.c (libthai_engine_break): Check for UAX#29
+	GB_Prepend & GB_Extend characters and override their is_cursor_position
+	logical attributes.
+
+2010-07-09  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	Do not decompose SARA AM for monospace fonts. (Patch proposed for
 	GNOME #583718 to fix VTE problem with SARA AM)
 
