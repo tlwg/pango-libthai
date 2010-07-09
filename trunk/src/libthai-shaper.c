@@ -41,9 +41,9 @@
 
 
 static void
-add_glyph (ThaiFontInfo     *font_info, 
-           PangoGlyphString *glyphs, 
-           gint              cluster_start, 
+add_glyph (ThaiFontInfo     *font_info,
+           PangoGlyphString *glyphs,
+           gint              cluster_start,
            PangoGlyph        glyph,
            gboolean          combining)
 {
@@ -51,10 +51,10 @@ add_glyph (ThaiFontInfo     *font_info,
   gint index = glyphs->num_glyphs;
 
   pango_glyph_string_set_size (glyphs, index + 1);
-  
+
   glyphs->glyphs[index].glyph = glyph;
   glyphs->glyphs[index].attr.is_cluster_start = combining ? 0 : 1;
-  
+
   glyphs->log_clusters[index] = cluster_start;
 
   pango_font_get_glyph_extents (font_info->font,
@@ -113,13 +113,13 @@ make_logical_glyphs (ThaiFontInfo *font_info, struct thcell_t tis_cell,
       case THAI_FONT_NONE:
       case THAI_FONT_TIS:
         return th_render_cell_tis (tis_cell, log_glyphs, n_log_glyphs, TRUE);
-  
+
       case THAI_FONT_TIS_MAC:
         return th_render_cell_mac (tis_cell, log_glyphs, n_log_glyphs, TRUE);
-  
+
       case THAI_FONT_TIS_WIN:
         return th_render_cell_win (tis_cell, log_glyphs, n_log_glyphs, TRUE);
-  
+
       default:
         return 0;
     }
@@ -148,7 +148,7 @@ render_tis_chunk (ThaiFontInfo     *font_info,
       struct thcell_t tis_cell;
       thglyph_t       log_glyphs[4];
       PangoGlyph      pango_glyphs[4];
-  
+
       cell_length = th_next_cell (tis_text + i, tis_length - i, &tis_cell,
                                   !font_info->is_monospace);
       n = make_logical_glyphs (font_info, tis_cell,
@@ -175,7 +175,7 @@ render_non_thai_char (ThaiFontInfo     *font_info,
              make_unichar_glyph (font_info, uc), FALSE);
 }
 
-void 
+void
 libthai_engine_shape (PangoEngineShape    *engine,
                       PangoFont           *font,
                       const char          *text,
