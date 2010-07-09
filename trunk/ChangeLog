@@ -1,3 +1,14 @@
+2010-07-09  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+	Do not decompose SARA AM for monospace fonts. (Patch proposed for
+	GNOME #583718 to fix VTE problem with SARA AM)
+
+	* src/libthai-shaper.h (struct _ThaiFontInfo): Add is_monospace member.
+	* src/libthai-fc.c (libthai_get_font_info): Detect monospace family in
+	font map and set is_monospace info.
+	* src/libthai-shaper.c (render_tis_chunk): Pass !is_monospace as
+	is_decomp_am arg to th_next_cell().
+
 2010-07-08  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
 	GNOME Pango partial merge: Use the new ruleset description based API.

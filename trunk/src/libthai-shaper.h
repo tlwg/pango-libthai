@@ -56,6 +56,7 @@ struct _ThaiFontInfo
 {
   PangoFont       *font;
   ThaiFontSet      font_set;
+  gboolean         is_monospace;
 };
 
 /*
