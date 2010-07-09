@@ -151,6 +151,8 @@ libthai_get_font_info (PangoFont     *font,
 
   if (G_UNLIKELY (!font_info))
     {
+      PangoFontMap *fontmap;
+
       /* No cached information not found, so we need to compute it
        * from scratch
        */
@@ -166,6 +168,26 @@ libthai_get_font_info (PangoFont     *font,
         font_info->font_set = THAI_FONT_TIS_MAC;
       else
         font_info->font_set = THAI_FONT_TIS;
+
+      /* check if the font is monospace */
+      font_info->is_monospace = FALSE;
+      fontmap = pango_font_get_font_map (font);
+      if (G_LIKELY (fontmap))
+        {
+          PangoFontFamily **families;
+          int n_families, i;
+
+          pango_font_map_list_families (fontmap, &families, &n_families);
+          for (i = 0; i < n_families; i++)
+            {
+              if (pango_font_family_is_monospace (families[i]))
+                {
+                  font_info->is_monospace = TRUE;
+                  break;
+                }
+            }
+          g_free (families);
+        }
 
       g_object_set_qdata_full (G_OBJECT (font), info_id, font_info, (GDestroyNotify)g_free);
     }

@@ -149,7 +149,8 @@ render_tis_chunk (ThaiFontInfo     *font_info,
       thglyph_t       log_glyphs[4];
       PangoGlyph      pango_glyphs[4];
   
-      cell_length = th_next_cell (tis_text + i, tis_length - i, &tis_cell, TRUE);
+      cell_length = th_next_cell (tis_text + i, tis_length - i, &tis_cell,
+                                  !font_info->is_monospace);
       n = make_logical_glyphs (font_info, tis_cell,
                                log_glyphs, G_N_ELEMENTS (log_glyphs));
       n = make_font_glyphs (font_info, log_glyphs, n,
