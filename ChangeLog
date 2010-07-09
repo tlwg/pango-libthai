@@ -1,5 +1,10 @@
 2010-07-09  Theppitak Karoonboonyanan <thep@linux.thai.net>
 
+	* src/Makefile.am, src/libthai-ot.h, src/libthai-ot.c,
+	src/libthai-shaper.c: Remove trailing spaces.
+
+2010-07-09  Theppitak Karoonboonyanan <thep@linux.thai.net>
+
 	Override UAX#29 GB_Prepend & GB_Extend classes for caret movements.
 	(Patch proposed for GNOME #576156)
 

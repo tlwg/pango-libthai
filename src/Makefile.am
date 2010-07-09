@@ -6,7 +6,7 @@ endif
 
 thai_fc_sources = libthai-shaper.c libthai-shaper.h libthai-fc.c \
                   libthai-ot.c libthai-ot.h
-thai_lang_sources = libthai-lang.c 
+thai_lang_sources = libthai-lang.c
 
 moduledir = $(libdir)/pango/$(PANGO_MODULE_VERSION)/modules
 

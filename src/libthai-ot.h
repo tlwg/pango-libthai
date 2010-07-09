@@ -30,7 +30,7 @@ libthai_ot_get_ruleset (PangoFont     *font,
                         PangoScript    script,
                         PangoLanguage *language);
 
-void 
+void
 libthai_ot_shape (PangoFont           *font,
                   const PangoAnalysis *analysis,
                   PangoGlyphString    *glyphs);
