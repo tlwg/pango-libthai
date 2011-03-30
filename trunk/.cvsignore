@@ -1,6 +1,9 @@
 *.lo
 libtool
 ltmain.sh
+m4
+depcomp
+autom4te.cache
 configure
 config.cache
 config.guess
@@ -15,6 +18,7 @@ Makefile
 Makefile.in
 aclocal.m4
 missing
+INSTALL
 install-sh
 mkinstalldirs
 ChangeLog
